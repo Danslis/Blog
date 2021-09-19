@@ -24,7 +24,12 @@ namespace Blog.Api
         {
 
             services.AddControllers();
-            services.AddDbContext<AppDbContext>(x => x.UseSqlite(Configuration.GetConnectionString("SqliteConnection")));
+            using (var db = new AppDbContext())
+            {
+                db.Database.EnsureCreated();
+                db.Database.Migrate();
+            }
+            //services.AddDbContext<AppDbContext>(x => x.UseSqlite(Configuration.GetConnectionString("SqliteConnection")));
 
             services.AddSwaggerGen(c =>
             {

@@ -1,4 +1,5 @@
 ﻿using Blog.DataAccess.Entities;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 
 namespace Blog.DataAccess.Context
@@ -6,7 +7,12 @@ namespace Blog.DataAccess.Context
     public class AppDbContext : DbContext
     {
         public AppDbContext(DbContextOptions<AppDbContext> opts) : base(opts) { }
-        public DbSet<TestTableEntity> TestTAble { get; set; }
+
+        public AppDbContext()
+        {
+        }
+
+        public DbSet<TestTableEntity> TestTable { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -20,7 +26,11 @@ namespace Blog.DataAccess.Context
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Filename=MyDatabase.db");
+            var connectionStringBuilder = new SqliteConnectionStringBuilder { DataSource = "MyDb.db" };
+            var connectionString = connectionStringBuilder.ToString();
+            var connection = new SqliteConnection(connectionString);
+
+            optionsBuilder.UseSqlite(connection);
         }
     }
 }
