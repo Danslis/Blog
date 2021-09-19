@@ -1,5 +1,4 @@
 ﻿using Blog.DataAccess.Entities;
-using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 
 namespace Blog.DataAccess.Context
@@ -23,14 +22,6 @@ namespace Blog.DataAccess.Context
                 new TestTableEntity { Id = 2, Name = "Test2" },
                 new TestTableEntity { Id = 3, Name = "Test3" }
             );
-        }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            var connectionStringBuilder = new SqliteConnectionStringBuilder { DataSource = "MyDb.db" };
-            var connectionString = connectionStringBuilder.ToString();
-            var connection = new SqliteConnection(connectionString);
-
-            optionsBuilder.UseSqlite(connection);
         }
     }
 }
