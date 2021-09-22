@@ -1,3 +1,5 @@
+using Blog.Api.Extensions;
+using Blog.DataAccess;
 using Blog.DataAccess.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -24,9 +26,13 @@ namespace Blog.Api
         {
 
             services.AddControllers();
+            services.AddAutoMapper(typeof(ApiMappingProfile), typeof(DataAccessMappingProfile));
             services.AddDbContext<AppDbContext>(x => x.UseSqlite(Configuration.GetConnectionString("SqliteConnection"),
                 optionsBuilder =>
                     optionsBuilder.MigrationsAssembly("Blog.Api")));
+
+            services.AddRepositories();
+            services.AddServices();
 
             services.AddSwaggerGen(c =>
             {
