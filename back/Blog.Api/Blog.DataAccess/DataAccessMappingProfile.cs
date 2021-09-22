@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Blog.DataAccess.Entities;
-using Blog.Domain.Dto;
-
+using Blog.Domain.Models;
 
 namespace Blog.DataAccess
 {
@@ -9,7 +8,7 @@ namespace Blog.DataAccess
     {
         public DataAccessMappingProfile()
         {
-            CreateMap<TestTableDto, TestTableEntity>()
+            CreateMap<TestTable, TestTableEntity>()
                 .ReverseMap();
         }
     }

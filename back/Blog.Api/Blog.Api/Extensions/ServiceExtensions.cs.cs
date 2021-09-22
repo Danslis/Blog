@@ -9,6 +9,7 @@ namespace Blog.Api.Extensions
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
             services.AddTransient<IBlogService, BlogService>();
+            services.AddTransient<ITestService, TestService>();
             return services;
         }
         

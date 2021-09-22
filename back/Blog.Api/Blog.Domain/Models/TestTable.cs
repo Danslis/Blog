@@ -1,6 +1,6 @@
-﻿namespace Blog.Domain.Dto
+﻿namespace Blog.Domain.Models
 {
-    public class TestTableDto
+    public class TestTable
     {
         public int Id { get; set; }
         public string Name { get; set; }

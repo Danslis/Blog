@@ -1,14 +1,11 @@
-﻿using Blog.Domain.Dto;
-using System;
+﻿using Blog.Domain.Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Blog.Domain
 {
     public interface IBlogService
     {
-        Task<IEnumerable<TestTableDto>> GetTestTablesAsync();
+        Task<IEnumerable<TestTable>> GetTestTablesAsync();
     }
 }

@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace Blog.DataAccess.Repositories
 {
-    public class BlogRepository: IBlogRepository
+    public class TestRepository : ITestRepository
     {
         private AppDbContext _context;
         private readonly IMapper _mapper;
 
-        public BlogRepository(AppDbContext context, IMapper mapper)
+        public TestRepository(AppDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;

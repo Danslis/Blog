@@ -1,18 +1,16 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
 using Blog.Api.Models;
-using Blog.Domain.Dto;
+using Blog.Domain.Models;
 
 namespace Blog.Api
 {
     public class ApiMappingProfile : Profile
     {
         public ApiMappingProfile()
-        {         
-           CreateMap<GetTestTableResponse, TestTableDto>().ReverseMap(); ;           
+        {
+            CreateMap<TestTable, GetTestTableResponse>();            
         }
     }
 }
-
 
 

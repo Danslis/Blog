@@ -4,9 +4,8 @@ using System.Threading.Tasks;
 
 namespace Blog.Domain
 {
-    public interface IBlogRepository
+    public interface ITestService
     {
         Task<IEnumerable<TestTable>> GetTestTablesAsync();
-
     }
 }

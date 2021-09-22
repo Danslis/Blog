@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace Blog.Application.Services
 {
-    public class BlogService: IBlogService
+    public class TestService : ITestService
     {
-        private IBlogRepository _repository;
+        private ITestRepository _repository;
 
-        public BlogService(IBlogRepository repository)
+        public TestService(ITestRepository repository)
         {
             _repository = repository;
         }

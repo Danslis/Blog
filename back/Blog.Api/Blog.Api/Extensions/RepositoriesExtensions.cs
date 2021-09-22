@@ -8,6 +8,7 @@ namespace Blog.Api.Extensions
     {
         public static IServiceCollection AddRepositories(this IServiceCollection services)
         {
+            services.AddTransient<ITestRepository, TestRepository>();
             services.AddTransient<IBlogRepository, BlogRepository>();
             return services;
         }
