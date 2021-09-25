@@ -1,9 +1,10 @@
 ﻿using Blog.DataAccess.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Blog.DataAccess.Context
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<UserEntity>
     {
         public AppDbContext(DbContextOptions<AppDbContext> opts) : base(opts) { }
 
