@@ -16,7 +16,7 @@ namespace Blog.DataAccess.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            
+            modelBuilder.ApplyConfiguration(new TestTableConfiguration());
             modelBuilder.Entity<TestTableEntity>().HasData(
                 new TestTableEntity { Id = 1, Name = "Test1" },
                 new TestTableEntity { Id = 2, Name = "Test2" },

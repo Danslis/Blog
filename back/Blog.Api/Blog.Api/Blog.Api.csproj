@@ -26,4 +26,9 @@
     <ProjectReference Include="..\Blog.DataAccess\Blog.DataAccess.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\Responce\" />
+    <Folder Include="Models\Request\" />
+  </ItemGroup>
+
 </Project>
