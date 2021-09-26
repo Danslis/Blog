@@ -5,7 +5,7 @@ namespace Blog.Domain.Auth
 {
     public interface IUserService
     {
-        public Task<string> GenerateJwt(string userName, string userId);
+        public string GenerateJwt(string userName, string userId);
         public Task<UserLoginModel> GetIdentity(string userName, string password);
     }
 }

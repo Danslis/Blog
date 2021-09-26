@@ -1,9 +1,6 @@
 ﻿using Blog.Api.Models.Request;
 using Blog.Domain.Auth;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Blog.Api.Controllers
@@ -31,7 +28,7 @@ namespace Blog.Api.Controllers
             {
                 return Unauthorized();
             }
-            var token = await _userService.GenerateJwt(userLoginRequest.Email, identity.UserId);
+            var token = _userService.GenerateJwt(userLoginRequest.Email, identity.UserId);
             return Ok(new
             {
                 Token = token                

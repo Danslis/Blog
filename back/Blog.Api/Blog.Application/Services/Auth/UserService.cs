@@ -22,11 +22,11 @@ namespace Blog.Application.Services.Auth
             _authOptions = authOptions;
         }        
 
-        public async Task<string> GenerateJwt(string userName, string userId)
+        public string GenerateJwt(string userName, string userId)
         {
             var authParams = _authOptions.Value;
-            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
-            var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);                  
+            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authParams.Secret));
+            var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
             var claims = new List<Claim>
             {

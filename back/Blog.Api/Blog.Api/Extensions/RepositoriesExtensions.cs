@@ -1,5 +1,7 @@
 ﻿using Blog.DataAccess.Repositories;
+using Blog.DataAccess.Repositories.Auth;
 using Blog.Domain;
+using Blog.Domain.Auth;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Blog.Api.Extensions
@@ -10,6 +12,7 @@ namespace Blog.Api.Extensions
         {
             services.AddTransient<ITestRepository, TestRepository>();
             services.AddTransient<IBlogRepository, BlogRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
             return services;
         }
     }

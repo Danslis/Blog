@@ -1,4 +1,3 @@
-using Blog.Api.AuthOption;
 using Blog.Api.Extensions;
 using Blog.DataAccess;
 using Blog.DataAccess.Context;
@@ -15,6 +14,8 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using Blog.Api.SeedData;
+using Blog.Application.Services.Auth.AuthOption;
 
 namespace Blog.Api
 {
@@ -30,8 +31,8 @@ namespace Blog.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var authConfiguration = Configuration.GetSection("Auth");
             var authOptions = Configuration.GetSection("Auth").Get<AuthOptions>();
+            services.Configure<AuthOptions>(Configuration.GetSection("Auth"));
             services.AddAuthentication(opt =>
             {
                 opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -48,7 +49,7 @@ namespace Blog.Api
 
                     ValidIssuer = authOptions.Issuer,
                     ValidAudience = authOptions.Audience,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authOptions.Secret))
                 };
             });
             services.AddControllers();
@@ -78,13 +79,16 @@ namespace Blog.Api
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Blog.Api", Version = "v1" });
             });
+            services.AddTransient<AuthContextSeedData>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, AuthContextSeedData seeder)
         {
+            
             if (env.IsDevelopment())
             {
+                seeder.SeedAdminUser();
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Blog.Api v1"));
