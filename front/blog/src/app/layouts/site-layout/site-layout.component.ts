@@ -1,4 +1,6 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthenticationService } from 'src/app/service/authentication.service';
 
 
 @Component({
@@ -6,21 +8,17 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
   templateUrl: './site-layout.component.html',
   styleUrls: ['./site-layout.component.css']
 })
-export class SiteLayoutComponent implements OnInit, AfterViewInit {
+export class SiteLayoutComponent implements OnInit {
 
-  constructor() { }
+  public isUserAuthenticated: boolean;
+  constructor(private authService: AuthenticationService, private router: Router) { }
 
   ngOnInit(): void {
-    }
-
-
-  loadUserInfo() {
+    this.isUserAuthenticated = this.authService.isUserAuthenticated();
   }
 
-  ngAfterViewInit(): void {
-  }
-
-  logout(event: Event){
-
+  logout(){
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 }

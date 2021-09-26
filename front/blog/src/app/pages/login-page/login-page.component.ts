@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { Subscription } from 'rxjs'
-import { ActivatedRoute, Params, Router } from '@angular/router'
-// import { AuthService } from "../../service/auth.service";
-// import { MaterialService } from "../../shared/classes/material.service";
-// import { LoginModel } from "../../models/auth/login.model";
+import { Router } from '@angular/router'
+import { IAuthResponse } from 'src/app/interfaces/authResponse';
+import { AuthenticationService } from 'src/app/service/authentication.service';
+
 
 
 @Component({
@@ -19,30 +19,18 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   isAuth:boolean;
 
   constructor(
-    //private auth: AuthService,
-    private router: Router,
-    private route: ActivatedRoute) {
+    private auth: AuthenticationService,
+    private router: Router) {
   }
 
   ngOnInit() {
-    console.log("ngOnInit login");
-    //this.isAuth = this.auth.isUserAuthenticated();
-    //if (this.isAuth) {
-    //  this.router.navigate(['/home']);
-    //}
+    this.isAuth = this.auth.isUserAuthenticated();
+    if (this.isAuth) {
+     this.router.navigate(['/home']);
+    }
     this.form = new FormGroup({
       email: new FormControl(null, [Validators.required, Validators.email]),
-      password: new FormControl(null, [Validators.required, Validators.minLength(6)])
-    });
-
-    this.route.queryParams.subscribe((params: Params) => {
-      if (params['registered']) {
-        //MaterialService.toast('Теперь вы можете зайти в систему используя свои данные');
-      } else if (params['accessDenied']) {
-        //MaterialService.toast('Для начала авторизуйтесь в системе');
-      } else if (params['sessionFailed']) {
-        //MaterialService.toast('Пожалуйста войдите в систему заного');
-      }
+      password: new FormControl(null, [Validators.required, Validators.minLength(5)])
     });
   }
 
@@ -54,16 +42,16 @@ export class LoginPageComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     this.form.disable();
-    console.log(this.form.value);
-    //this.aSub = this.auth.login(this.form.value).subscribe(
-    //  (data: LoginModel) => {
-    //    this.router.navigate(['/home', data.id]);
-    //  },
-    //  error => {
-        //MaterialService.toast(error.error.message);
-   //     this.form.enable();
-   //   }
-   // );
+    this.aSub = this.auth.login(this.form.value).subscribe(
+    (response: IAuthResponse) => {
+      const token = response.token;
+      localStorage.setItem("token", token);
+      this.router.navigate(['/home']);
+    },
+    error => {
+        this.form.enable();
+     }
+    );
   }
 
 }

@@ -80,6 +80,16 @@ namespace Blog.Api
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Blog.Api", Version = "v1" });
             });
             services.AddTransient<AuthContextSeedData>();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("EnableCORS", builder =>
+                {
+                    builder.AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -94,7 +104,7 @@ namespace Blog.Api
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Blog.Api v1"));
             }
 
-
+            app.UseCors("EnableCORS");
             app.UseHttpsRedirection();
 
             app.UseRouting();

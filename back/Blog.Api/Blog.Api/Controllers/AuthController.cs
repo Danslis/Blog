@@ -30,7 +30,7 @@ namespace Blog.Api.Controllers
             }
             var token = _userService.GenerateJwt(userLoginRequest.Email, identity.UserId);
             return Ok(new
-            {
+            {               
                 Token = token                
             });
         }
