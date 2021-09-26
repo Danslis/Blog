@@ -1,9 +1,11 @@
 ﻿using Blog.DataAccess.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Blog.DataAccess.Context
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<UserEntity>
     {
         public AppDbContext(DbContextOptions<AppDbContext> opts) : base(opts) { }
 
@@ -17,11 +19,7 @@ namespace Blog.DataAccess.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new TestTableConfiguration());
-            modelBuilder.Entity<TestTableEntity>().HasData(
-                new TestTableEntity { Id = 1, Name = "Test1" },
-                new TestTableEntity { Id = 2, Name = "Test2" },
-                new TestTableEntity { Id = 3, Name = "Test3" }
-            );
+            base.OnModelCreating(modelBuilder);
         }
     }
 }
