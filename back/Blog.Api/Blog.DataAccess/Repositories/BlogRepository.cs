@@ -24,5 +24,30 @@ namespace Blog.DataAccess.Repositories
             var testTables = await _context.TestTable.ToListAsync();
             return _mapper.Map<IEnumerable<TestTable>>(testTables);
         }
+
+        public Task<IEnumerable<Post>> GetPostsAsync()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<Post> GetPostById(long id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<Post> CreatePost(Post post)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<Post> UpdatePost(Post post)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<Post> DeletePost(long id)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
