@@ -1,5 +1,8 @@
 import { Component } from '@angular/core'
+import { Observable } from 'rxjs';
+import { Post } from 'src/app/interfaces/postResponse';
 import { AuthenticationService } from 'src/app/service/authentication.service';
+import { PostsService } from 'src/app/service/post.service';
 
 @Component({
   selector: 'app-home-page',
@@ -7,7 +10,8 @@ import { AuthenticationService } from 'src/app/service/authentication.service';
   styleUrls: ['./home-page.component.scss']
 })
 export class HomePageComponent {
-  constructor() {
+  posts$: Observable<Post[]>
+  constructor(private postsService: PostsService) {
    }
 
   ngOnInit(): void {
