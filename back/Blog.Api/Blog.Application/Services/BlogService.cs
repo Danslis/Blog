@@ -1,5 +1,6 @@
 ﻿using Blog.Domain;
 using Blog.Domain.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -14,24 +15,57 @@ namespace Blog.Application.Services
             _repository = repository;
         }
 
-        public Task<Post> CreatePost(Post post)
+        public async Task<Post> CreatePost(Post post)
         {
-            throw new System.NotImplementedException();
+            try 
+            { 
+                var result = await _repository.CreatePost(post);
+                return result;
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
+            
         }
 
-        public Task<Post> DeletePost(long id)
+        public async Task<Post> DeletePost(long id)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                var result = await _repository.DeletePost(id);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
-        public Task<Post> GetPostById(long id)
+        public async Task<Post> GetPostById(long id)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                var result = await _repository.GetPostById(id);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
-        public Task<IEnumerable<Post>> GetPostsAsync()
+        public async Task<IEnumerable<Post>> GetPostsAsync()
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                var result = await _repository.GetPostsAsync();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         public async Task<IEnumerable<TestTable>> GetTestTablesAsync()
@@ -40,9 +74,17 @@ namespace Blog.Application.Services
             return testTables;
         }
 
-        public Task<Post> UpdatePost(Post post)
+        public async Task<Post> UpdatePost(Post post)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                var result = await _repository.UpdatePost(post);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
     }
 }

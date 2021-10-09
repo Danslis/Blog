@@ -10,25 +10,33 @@ namespace Blog.Tests
 {
     class TestServiceTests
     {
-        [Test]
-        public async Task GetTestTablesAsync_Should()
+        private Mock<ITestRepository> _testRepositoryMock;
+        private TestService _service;
+        private TestTable[] _data;
+
+        [SetUp]
+        public void SetUp()
         {
-            var testRepositoryMock = new Mock<ITestRepository>();
-            //Arrange
-            var data = new[]
+            _testRepositoryMock = new Mock<ITestRepository>();
+            _service = new TestService(_testRepositoryMock.Object);
+            _data = new[]
             {
                 new TestTable { Id = 1, Name = "Test1" },
                 new TestTable { Id = 2, Name = "Test2" },
                 new TestTable { Id = 3, Name = "Test3" }
             };
-            testRepositoryMock.Setup(x => x.GetTestTablesAsync())
-                .ReturnsAsync(data).Verifiable();
+        }
+        [Test]
+        public async Task GetTestTablesAsync_Should()
+        {
+            //Arrange
+            _testRepositoryMock.Setup(x => x.GetTestTablesAsync())
+                .ReturnsAsync(_data).Verifiable();
             //Act
-            var service = new TestService(testRepositoryMock.Object);
-            var results = await service.GetTestTablesAsync();
+            var results = await _service.GetTestTablesAsync();
 
             //Assert
-            testRepositoryMock.VerifyAll();
+            _testRepositoryMock.VerifyAll();
             Assert.IsNotNull(results);
             Assert.AreEqual(3, results.Count());
             Assert.AreEqual("Test1", results.Where(x=>x.Name=="Test1").Select(x=>x.Name).FirstOrDefault());
