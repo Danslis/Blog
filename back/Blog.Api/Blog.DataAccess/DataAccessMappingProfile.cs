@@ -10,6 +10,8 @@ namespace Blog.DataAccess
         {
             CreateMap<TestTable, TestTableEntity>()
                 .ReverseMap();
+            CreateMap<Post, PostEntity>()
+                .ReverseMap();
         }
     }
 }

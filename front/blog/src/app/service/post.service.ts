@@ -10,7 +10,7 @@ export class PostsService {
     this.baseUrl = "http://localhost:5000";
   }
 
-  getAll(): Observable<Post[]> {
+  getPosts(): Observable<Post[]> {
     return this.http.get<Post[]>(`${this.baseUrl}/blog/get-posts`)
   }
 
