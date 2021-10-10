@@ -24,13 +24,14 @@ namespace Blog.Api.Controllers
             _service = service;
         }
 
-        [HttpGet]
+        [HttpGet("get-posts")]
         public async Task<IEnumerable<PostResponse>> Get()
         {
             try
             {
-                var results = await _service.GetPostsAsync();
-                return null;
+                var data = await _service.GetPostsAsync();
+                var results = _mapper.Map<IEnumerable<PostResponse>>(data);
+                return results;
             }
             catch(Exception ex)
             {
@@ -38,11 +39,12 @@ namespace Blog.Api.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("get-posts-by-id/{id}")]
         public async Task<PostResponse> Get(int id)
         {
-            var result = await _service.GetPostById(id);
-            return null;
+            var data = await _service.GetPostById(id);
+            var result = _mapper.Map<PostResponse>(data);
+            return result;
         }
 
         [HttpPost]

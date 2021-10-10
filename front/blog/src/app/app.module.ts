@@ -10,6 +10,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { JwtModule } from "@auth0/angular-jwt";
+import { PostComponent } from './shared/components/post/post.component';
+import { PostPageComponent } from './pages/post-page/post-page.component';
+import { QuillModule } from 'ngx-quill';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -21,7 +24,9 @@ export function tokenGetter() {
     AuthLayoutComponent,
     SiteLayoutComponent,
     LoginPageComponent,
-    HomePageComponent
+    HomePageComponent,
+    PostPageComponent,
+    PostComponent
   ],
   imports: [
     BrowserModule,
@@ -29,6 +34,7 @@ export function tokenGetter() {
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    QuillModule.forRoot(),
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
@@ -37,7 +43,9 @@ export function tokenGetter() {
       }
     })
   ],
-
+  exports: [
+    QuillModule
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

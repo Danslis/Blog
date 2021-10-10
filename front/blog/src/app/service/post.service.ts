@@ -11,20 +11,20 @@ export class PostsService {
   }
 
   getPosts(): Observable<Post[]> {
-    return this.http.get<Post[]>(`${this.baseUrl}/blog/get-posts`)
+    return this.http.get<Post[]>(`${this.baseUrl}/post/get-posts`)
   }
 
   getPostById(id: number) {
-    return this.http.get(`${this.baseUrl}/blog/get-posts-by-id` + '/' + id);
+    return this.http.get(`${this.baseUrl}/post/get-posts-by-id/${id}`);
   }
 
   createPost(post: Post) {
-    return this.http.post(`${this.baseUrl}/blog/create/`, post);
+    return this.http.post(`${this.baseUrl}/post/create/`, post);
 }
   updatePost(post: Post) {
-      return this.http.put(`${this.baseUrl}/blog/update/`, post);
+      return this.http.put(`${this.baseUrl}/post/update/`, post);
   }
   deletePost(id: number) {
-      return this.http.delete(`${this.baseUrl}/blog/delete/` + '/' + id);
+      return this.http.delete(`${this.baseUrl}/post/delete/` + '/' + id);
   }
 }

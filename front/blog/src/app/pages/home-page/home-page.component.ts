@@ -15,6 +15,6 @@ export class HomePageComponent {
    }
 
   ngOnInit(): void {
-
+    this.posts$ = this.postsService.getPosts();
   }
 }
