@@ -38,7 +38,7 @@ namespace Blog.Application.Services.Auth
                 issuer: authParams.Issuer,
                 audience: authParams.Audience,
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(5),
+                expires: DateTime.Now.AddMinutes(30),
                 signingCredentials: signinCredentials
             );
 

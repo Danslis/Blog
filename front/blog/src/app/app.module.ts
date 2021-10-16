@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
@@ -13,6 +13,8 @@ import { JwtModule } from "@auth0/angular-jwt";
 import { PostComponent } from './shared/components/post/post.component';
 import { PostPageComponent } from './pages/post-page/post-page.component';
 import { QuillModule } from 'ngx-quill';
+import { CreatePostPageComponent } from './pages/create-post-page/create-post-page.component';
+import { EditPostPageComponent } from './pages/edit-post-page/edit-post-page.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -26,11 +28,14 @@ export function tokenGetter() {
     LoginPageComponent,
     HomePageComponent,
     PostPageComponent,
-    PostComponent
+    PostComponent,
+    CreatePostPageComponent,
+    EditPostPageComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FontAwesomeModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,

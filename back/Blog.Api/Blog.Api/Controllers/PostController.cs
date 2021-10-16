@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using Blog.Api.Models.Request;
 using Blog.Api.Models.Responce;
 using Blog.Domain;
 using Blog.Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Blog.Api.Controllers
@@ -47,20 +50,21 @@ namespace Blog.Api.Controllers
             return result;
         }
 
-        [HttpPost]
-        public async Task<PostResponse> Post(PostRequest post)
+        [HttpPost("create"), Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> Post(PostRequest post)
         {
             try
-            {
-                var results = await _service.CreatePost(new Post()
+            {                
+                var data = await _service.CreatePost(new Post()
                 {
                     Id = post.Id,
                     Title = post.Title,
                     Text = post.Text,
-                    Author = post.Author,
-                    Date = post.Date,
+                    Author = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value,
+                    Date = DateTime.Now,
                 });
-                return null;
+                var result = _mapper.Map<PostResponse>(data);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -68,20 +72,21 @@ namespace Blog.Api.Controllers
             }
         }
 
-        [HttpPut]
-        public async Task<PostResponse> Put(PostRequest post)
+        [HttpPut("update"), Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> Put(PostRequest post)
         {
             try
             {
-                var results = await _service.UpdatePost(new Post()
+                var data = await _service.UpdatePost(new Post()
                 {
                     Id = post.Id,
                     Title = post.Title,
                     Text = post.Text,
-                    Author = post.Author,
-                    Date = post.Date,
+                    Author = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value,
+                    Date = DateTime.Now,
                 });
-                return null;
+                var result = _mapper.Map<PostResponse>(data);
+                return Ok(result);
             }
             catch (Exception ex)
             {

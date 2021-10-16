@@ -61,7 +61,8 @@ namespace Blog.DataAccess.Repositories
             {
                 var newPost = await _context.Posts.AddAsync(_mapper.Map<PostEntity>(post));
                 await _context.SaveChangesAsync();
-                return _mapper.Map<Post>(newPost);
+                var result = _mapper.Map<Post>(newPost.Entity);
+                return result;
             }
             catch (Exception e)
             {

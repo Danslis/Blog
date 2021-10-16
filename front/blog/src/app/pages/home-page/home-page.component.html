@@ -1,3 +1,7 @@
+<div class="container">
+<button
+[routerLink]="['/add-post']"
+class="btn btn-success mt-3">Создать сообщение</button>
 <div
   *ngIf="posts$ | async as posts; else loading"
   class="posts"
@@ -11,3 +15,4 @@
 <ng-template #loading>
   <p class="text-center">Загружаю посты...</p>
 </ng-template>
+</div>

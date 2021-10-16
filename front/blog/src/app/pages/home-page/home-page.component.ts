@@ -1,7 +1,6 @@
 import { Component } from '@angular/core'
 import { Observable } from 'rxjs';
 import { Post } from 'src/app/interfaces/postResponse';
-import { AuthenticationService } from 'src/app/service/authentication.service';
 import { PostsService } from 'src/app/service/post.service';
 
 @Component({
