@@ -3,9 +3,10 @@
   <div class="post">
     <div class="header">
       <h1>{{ post.title }}</h1>
-
-      <button routerLink="/" class="btn btn-link">На главную</button>
+      <div class="back-arrow">
+      <fa-icon class="icon" [icon]="faArrowLeft" size="lg" [fixedWidth]="true" routerLink="/"></fa-icon>
     </div>
+  </div>
 
     <div class="info">
       <strong>{{ post.author }}</strong>

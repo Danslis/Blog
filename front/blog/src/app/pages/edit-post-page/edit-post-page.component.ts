@@ -5,6 +5,7 @@ import {Subscription} from 'rxjs';
 import { Post } from 'src/app/interfaces/postResponse';
 import { PostsService } from 'src/app/service/post.service';
 import { switchMap } from 'rxjs/operators';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 
 @Component({
@@ -14,11 +15,11 @@ import { switchMap } from 'rxjs/operators';
 })
 export class EditPostPageComponent implements OnInit, OnDestroy {
 
-  form: FormGroup
-  post: Post
-  submitted = false
-
-  uSub: Subscription
+  form: FormGroup;
+  post: Post;
+  submitted = false;
+  faArrowLeft = faArrowLeft;
+  uSub: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -30,29 +31,29 @@ export class EditPostPageComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.route.params.pipe(
       switchMap((params: Params) => {
-        return this.postsService.getPostById(params['id'])
+        return this.postsService.getPostById(params['id']);
       })
     ).subscribe((post: Post) => {
-      this.post = post
+      this.post = post;
       this.form = new FormGroup({
         title: new FormControl(post.title, Validators.required),
         text: new FormControl(post.text, Validators.required)
-      })
-    })
+      });
+    });
   }
 
   ngOnDestroy() {
     if (this.uSub) {
-      this.uSub.unsubscribe()
+      this.uSub.unsubscribe();
     }
   }
 
   submit() {
     if (this.form.invalid) {
-      return
+      return;
     }
 
-    this.submitted = true
+    this.submitted = true;
 
     this.uSub = this.postsService.updatePost({
       ...this.post,

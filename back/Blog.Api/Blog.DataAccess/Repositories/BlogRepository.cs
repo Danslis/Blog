@@ -5,6 +5,7 @@ using Blog.Domain;
 using Blog.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Blog.DataAccess.Entities;
 
@@ -31,7 +32,7 @@ namespace Blog.DataAccess.Repositories
         {
             try
             {
-                var posts = await _context.Posts.ToListAsync();
+                var posts = await _context.Posts.OrderByDescending(x=> x.Date).AsNoTracking().ToListAsync();
                 return _mapper.Map<IEnumerable<Post>>(posts);
             }
             catch(Exception e)
@@ -45,7 +46,7 @@ namespace Blog.DataAccess.Repositories
         {
             try
             {
-                var post = await _context.Posts.FirstOrDefaultAsync(x=>x.Id == id);
+                var post = await _context.Posts.AsNoTracking().FirstOrDefaultAsync(x=>x.Id == id);
                 return _mapper.Map<Post>(post);
             }
             catch (Exception e)

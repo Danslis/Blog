@@ -1,6 +1,14 @@
 <div class="container">
 <div *ngIf="form; else loading">
   <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="row mt-3">
+      <div class="col-10">
+    <h1>Редактирование поста</h1>
+  </div>
+    <div class="col-2 back-arrow">
+      <fa-icon class="icon" [icon]="faArrowLeft" size="lg" [fixedWidth]="true" routerLink="/"></fa-icon>
+    </div>
+  </div>
     <div class="mb-3">
       <label class="form-label" for="title">Название поста:</label>
       <input [ngClass]="form.get('title').touched && form.get('title').invalid ? 'is-invalid' : ''" class="form-control" id="title" type="text" formControlName="title">

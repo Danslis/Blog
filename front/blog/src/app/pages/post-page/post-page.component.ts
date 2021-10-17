@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Params} from '@angular/router';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import {switchMap} from 'rxjs/operators';
 import { PostsService } from 'src/app/service/post.service';
 
@@ -11,6 +12,7 @@ import { PostsService } from 'src/app/service/post.service';
 export class PostPageComponent implements OnInit {
 
   post$: any
+  faArrowLeft = faArrowLeft;
 
   constructor(
     private route: ActivatedRoute,

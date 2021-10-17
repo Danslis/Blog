@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { IAuthResponse } from '../interfaces/authResponse';
 import { UserLoginRequest } from '../interfaces/userLoginRequest';
 
@@ -9,14 +10,12 @@ import { UserLoginRequest } from '../interfaces/userLoginRequest';
   providedIn: 'root'
 })
 export class AuthenticationService {
-  baseUrl: string;
 
   constructor(private http: HttpClient, private jwtHelper: JwtHelperService) {
-    this.baseUrl = "http://localhost:5000";
    }
 
   public login(userLoginRequest: UserLoginRequest): Observable<IAuthResponse> {
-    return this.http.post<IAuthResponse>(`${this.baseUrl}/auth/login/`, userLoginRequest)
+    return this.http.post<IAuthResponse>(`${environment.url}/auth/login/`, userLoginRequest)
   }
   public logout = () => {
     localStorage.removeItem("token");

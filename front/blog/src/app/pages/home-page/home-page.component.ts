@@ -1,5 +1,5 @@
-import { Component } from '@angular/core'
-import { Observable } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core'
+import { Subscription } from 'rxjs';
 import { Post } from 'src/app/interfaces/postResponse';
 import { PostsService } from 'src/app/service/post.service';
 
@@ -8,8 +8,8 @@ import { PostsService } from 'src/app/service/post.service';
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.scss']
 })
-export class HomePageComponent {
-  posts$: Observable<Post[]>;
+export class HomePageComponent implements OnInit, OnDestroy {
+  sub: Subscription;
   posts: Post[];
   loading: boolean = false;
   constructor(private postsService: PostsService) {
@@ -21,6 +21,13 @@ export class HomePageComponent {
       this.loading = true;
     });
   }
+
+  ngOnDestroy() {
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
+  }
+
   onDeletePost(post: any) {
     this.posts = this.posts.filter(x => x.id !== post.id);
 }

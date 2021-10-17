@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -28,13 +29,14 @@ namespace Blog.Api.Controllers
         }
 
         [HttpGet("get-posts")]
-        public async Task<IEnumerable<PostResponse>> Get()
+        [ProducesResponseType(typeof(IEnumerable<PostResponse>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> Get()
         {
             try
             {
                 var data = await _service.GetPostsAsync();
                 var results = _mapper.Map<IEnumerable<PostResponse>>(data);
-                return results;
+                return Ok(results);
             }
             catch(Exception ex)
             {
@@ -43,13 +45,15 @@ namespace Blog.Api.Controllers
         }
 
         [HttpGet("get-posts-by-id/{id}")]
-        public async Task<PostResponse> Get(int id)
+        [ProducesResponseType(typeof(PostResponse), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> Get(int id)
         {
             var data = await _service.GetPostById(id);
             var result = _mapper.Map<PostResponse>(data);
-            return result;
+            return Ok(result);
         }
 
+        [ProducesResponseType(typeof(PostResponse), (int)HttpStatusCode.OK)]
         [HttpPost("create"), Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> Post(PostRequest post)
         {
@@ -71,7 +75,7 @@ namespace Blog.Api.Controllers
                 throw;
             }
         }
-
+        [ProducesResponseType(typeof(PostResponse), (int)HttpStatusCode.OK)]
         [HttpPut("update"), Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> Put(PostRequest post)
         {
@@ -94,6 +98,7 @@ namespace Blog.Api.Controllers
             }
         }
 
+        [ProducesResponseType(typeof(PostResponse), (int)HttpStatusCode.OK)]
         [HttpDelete("delete/{id}"), Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> Delete(int id)
         {
