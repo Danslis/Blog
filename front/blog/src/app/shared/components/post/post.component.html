@@ -1,16 +1,22 @@
-<div class="card">
-  <div class="card-header">
-    <h2>{{ post.title }}</h2>
 
-    <small>{{ post.date | date:'dd.MM.yyyy' }}</small>
-  </div>
-
-  <div>
-    <small>{{ post.author }}</small>
-  </div>
-
-  <button
+  <div class="card mt-3">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-md-10">
+           <h2>{{ post.title }}</h2>
+          <small>{{ post.date | date:'dd.MM.yyyy' }}</small>
+        </div>
+        <div class="col-md-2 float-right">
+          <fa-icon (click)="onEditClick(post)" [icon]="faPenSquare" size="2x"></fa-icon>
+          <fa-icon style="margin-left: 1em" (click)="onDeleteClick(post.id)" [icon]="faTrash" size="2x"></fa-icon>
+        </div>
+          </div>
+    </div>
+    <div class="card-body">
+      <p class="card-text"><small>{{ post.author }}</small></p>
+      <button
     [routerLink]="['/post', post.id]"
-    class="btn btn-dark"
-  >Открыть</button>
-</div>
+    class="btn btn-primary">Открыть</button>
+    </div>
+  </div>
+

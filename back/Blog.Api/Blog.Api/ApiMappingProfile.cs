@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Blog.Api.Models;
+using Blog.Api.Models.Responce;
 using Blog.Domain.Models;
 
 namespace Blog.Api
@@ -8,7 +9,8 @@ namespace Blog.Api
     {
         public ApiMappingProfile()
         {
-            CreateMap<TestTable, GetTestTableResponse>();            
+            CreateMap<TestTable, GetTestTableResponse>();
+            CreateMap<Post, PostResponse>();
         }
     }
 }

@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using Blog.Api.Models.Request;
 using Blog.Api.Models.Responce;
 using Blog.Domain;
 using Blog.Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Blog.Api.Controllers
@@ -24,13 +28,15 @@ namespace Blog.Api.Controllers
             _service = service;
         }
 
-        [HttpGet]
-        public async Task<IEnumerable<PostResponse>> Get()
+        [HttpGet("get-posts")]
+        [ProducesResponseType(typeof(IEnumerable<PostResponse>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> Get()
         {
             try
             {
-                var results = await _service.GetPostsAsync();
-                return null;
+                var data = await _service.GetPostsAsync();
+                var results = _mapper.Map<IEnumerable<PostResponse>>(data);
+                return Ok(results);
             }
             catch(Exception ex)
             {
@@ -38,27 +44,53 @@ namespace Blog.Api.Controllers
             }
         }
 
-        [HttpGet("{id}")]
-        public async Task<PostResponse> Get(int id)
+        [HttpGet("get-posts-by-id/{id}")]
+        [ProducesResponseType(typeof(PostResponse), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> Get(int id)
         {
-            var result = await _service.GetPostById(id);
-            return null;
+            var data = await _service.GetPostById(id);
+            var result = _mapper.Map<PostResponse>(data);
+            return Ok(result);
         }
 
-        [HttpPost]
-        public async Task<PostResponse> Post(PostRequest post)
+        [ProducesResponseType(typeof(PostResponse), (int)HttpStatusCode.OK)]
+        [HttpPost("create"), Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> Post(PostRequest post)
         {
             try
-            {
-                var results = await _service.CreatePost(new Post()
+            {                
+                var data = await _service.CreatePost(new Post()
                 {
                     Id = post.Id,
                     Title = post.Title,
                     Text = post.Text,
-                    Author = post.Author,
-                    Date = post.Date,
+                    Author = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value,
+                    Date = DateTime.Now,
                 });
-                return null;
+                var result = _mapper.Map<PostResponse>(data);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+        [ProducesResponseType(typeof(PostResponse), (int)HttpStatusCode.OK)]
+        [HttpPut("update"), Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> Put(PostRequest post)
+        {
+            try
+            {
+                var data = await _service.UpdatePost(new Post()
+                {
+                    Id = post.Id,
+                    Title = post.Title,
+                    Text = post.Text,
+                    Author = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value,
+                    Date = DateTime.Now,
+                });
+                var result = _mapper.Map<PostResponse>(data);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -66,34 +98,14 @@ namespace Blog.Api.Controllers
             }
         }
 
-        [HttpPut]
-        public async Task<PostResponse> Put(PostRequest post)
-        {
-            try
-            {
-                var results = await _service.UpdatePost(new Post()
-                {
-                    Id = post.Id,
-                    Title = post.Title,
-                    Text = post.Text,
-                    Author = post.Author,
-                    Date = post.Date,
-                });
-                return null;
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<PostResponse> Delete(int id)
+        [ProducesResponseType(typeof(PostResponse), (int)HttpStatusCode.OK)]
+        [HttpDelete("delete/{id}"), Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> Delete(int id)
         {
             try
             {
                 var results = await _service.DeletePost(id);                
-                return null;
+                return Ok(results);
             }
             catch (Exception ex)
             {
