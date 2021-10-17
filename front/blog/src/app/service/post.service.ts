@@ -25,6 +25,6 @@ export class PostsService {
       return this.http.put(`${this.baseUrl}/post/update/`, post);
   }
   deletePost(id: number) {
-      return this.http.delete(`${this.baseUrl}/post/delete/` + '/' + id);
+      return this.http.delete(`${this.baseUrl}/post/delete/${id}`);
   }
 }

@@ -94,13 +94,13 @@ namespace Blog.Api.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
-        public async Task<PostResponse> Delete(int id)
+        [HttpDelete("delete/{id}"), Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> Delete(int id)
         {
             try
             {
                 var results = await _service.DeletePost(id);                
-                return null;
+                return Ok(results);
             }
             catch (Exception ex)
             {

@@ -9,11 +9,19 @@ import { PostsService } from 'src/app/service/post.service';
   styleUrls: ['./home-page.component.scss']
 })
 export class HomePageComponent {
-  posts$: Observable<Post[]>
+  posts$: Observable<Post[]>;
+  posts: Post[];
+  loading: boolean = false;
   constructor(private postsService: PostsService) {
    }
 
   ngOnInit(): void {
-    this.posts$ = this.postsService.getPosts();
+    this.postsService.getPosts().subscribe((data: Post[])=>{
+      this.posts = data;
+      this.loading = true;
+    });
   }
+  onDeletePost(post: any) {
+    this.posts = this.posts.filter(x => x.id !== post.id);
+}
 }

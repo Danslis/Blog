@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { Router } from '@angular/router';
 import { faPenSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Subscription } from 'rxjs';
@@ -12,8 +12,8 @@ import { PostsService } from 'src/app/service/post.service';
   styleUrls: ['./post.component.scss']
 })
 export class PostComponent implements OnInit {
-
   @Input() post: Post;
+  @Output() deletePost: EventEmitter<any> = new EventEmitter<any>();
   faPenSquare = faPenSquare;
   faTrash = faTrash;
   aSub!: Subscription;
@@ -30,9 +30,10 @@ export class PostComponent implements OnInit {
   onDeleteClick(id: number){
     this.aSub =
     this.postsService.deletePost(id)
-      .subscribe((id: number) => {
-        if (id)
-        console.log(id);
+      .subscribe((post: Post) => {
+        if (post){
+          this.deletePost.emit(post);
+        }
       }, error => {
         console.log(error);
       });
